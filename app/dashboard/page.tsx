@@ -16,6 +16,17 @@ import { Participant, Response, MatchResult } from '@/types';
 const PIE_COLORS = ['#7c3aed', '#06b6d4', '#10b981', '#f59e0b', '#ec4899'];
 const RADIAL_COLORS = ['#7c3aed', '#06b6d4', '#10b981', '#f59e0b'];
 
+const CustomYAxisTick = ({ x, y, payload }: any) => {
+  const text: string = payload.value ?? '';
+  const maxLen = 20;
+  const display = text.length > maxLen ? text.slice(0, maxLen) + '…' : text;
+  return (
+    <text x={x} y={y} fill="rgba(255,255,255,0.45)" fontSize={10} textAnchor="end" dominantBaseline="middle">
+      {display}
+    </text>
+  );
+};
+
 const CustomTooltip = ({ active, payload }: any) => {
   if (!active || !payload?.length) return null;
   const item = payload[0];
@@ -376,13 +387,13 @@ export default function DashboardPage() {
               <h2 className="text-white font-bold text-xs uppercase tracking-widest">🧠 Toma de decisiones</h2>
             </div>
             <ResponsiveContainer width="100%" height={160}>
-              <BarChart data={decisionData} layout="vertical" barSize={14} margin={{ left: 0 }}>
+              <BarChart data={decisionData} layout="vertical" barSize={14} margin={{ left: 4, right: 8 }}>
                 <XAxis type="number" hide />
                 <YAxis
                   type="category"
                   dataKey="name"
-                  width={96}
-                  tick={{ fill: 'rgba(255,255,255,0.45)', fontSize: 11 }}
+                  width={120}
+                  tick={<CustomYAxisTick />}
                   axisLine={false}
                   tickLine={false}
                 />
@@ -404,14 +415,14 @@ export default function DashboardPage() {
               <span className="w-2 h-2 rounded-full bg-amber-400 inline-block" />
               <h2 className="text-white font-bold text-xs uppercase tracking-widest">🎯 Tipo de problema</h2>
             </div>
-            <ResponsiveContainer width="100%" height={160}>
-              <BarChart data={problemData} layout="vertical" barSize={14} margin={{ left: 0 }}>
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={problemData} layout="vertical" barSize={14} margin={{ left: 4, right: 8 }}>
                 <XAxis type="number" hide />
                 <YAxis
                   type="category"
                   dataKey="name"
-                  width={96}
-                  tick={{ fill: 'rgba(255,255,255,0.45)', fontSize: 11 }}
+                  width={130}
+                  tick={<CustomYAxisTick />}
                   axisLine={false}
                   tickLine={false}
                 />

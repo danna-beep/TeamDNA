@@ -96,7 +96,7 @@ export default function TeamDNAPage() {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/danna.jpg"
+                src="/danna.png"
                 alt="Danna Salamanca"
                 className="w-full h-full object-cover"
               />
