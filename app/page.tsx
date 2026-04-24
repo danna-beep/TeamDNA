@@ -151,10 +151,7 @@ export default function PresenterPage() {
               <p className="font-mono text-xs tracking-widest text-violet-400/60 uppercase mb-4">
                 Opening Statement
               </p>
-              <p className="text-2xl md:text-3xl font-light text-white/75 leading-relaxed">
-                No me voy a presentar de la forma tradicional.
-              </p>
-              <p className="text-2xl md:text-3xl font-bold text-white mt-2 leading-relaxed">
+              <p className="text-2xl md:text-3xl font-bold text-white leading-relaxed">
                 Voy a analizar qué tan compatibles somos como equipo.
               </p>
             </div>

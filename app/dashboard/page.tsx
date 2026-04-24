@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { motion } from 'framer-motion';
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell,
@@ -58,6 +58,8 @@ export default function DashboardPage() {
   const [results, setResults] = useState<MatchResult[]>([]);
   const [loading, setLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
+  const [downloadingPdf, setDownloadingPdf] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const refresh = useCallback(async () => {
     const [{ data: parts }, { data: resps }] = await Promise.all([
@@ -104,6 +106,37 @@ export default function DashboardPage() {
     a.download = `team-dna-${new Date().toISOString().split('T')[0]}.json`;
     a.click();
     URL.revokeObjectURL(url);
+  };
+
+  const downloadPdf = async () => {
+    if (!contentRef.current || downloadingPdf) return;
+    setDownloadingPdf(true);
+    try {
+      const html2canvas = (await import('html2canvas')).default;
+      const { jsPDF }   = await import('jspdf');
+
+      const canvas = await html2canvas(contentRef.current, {
+        backgroundColor: '#0b0818',
+        scale: 1.5,
+        useCORS: true,
+        logging: false,
+        onclone: (_doc, el) => {
+          el.querySelectorAll<HTMLElement>('.glass, .glass-strong').forEach((e) => {
+            e.style.background     = 'rgba(20, 14, 50, 0.97)';
+            e.style.backdropFilter = 'none';
+          });
+        },
+      });
+
+      const W   = canvas.width  / 1.5;
+      const H   = canvas.height / 1.5;
+      const pdf = new jsPDF({ orientation: W > H ? 'landscape' : 'portrait', unit: 'px', format: [W, H] });
+      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, W, H);
+      pdf.save(`team-dna-dashboard-${new Date().toISOString().split('T')[0]}.pdf`);
+    } catch (e) {
+      console.error(e);
+    }
+    setDownloadingPdf(false);
   };
 
   const insights = generateInsights(responses, results);
@@ -156,7 +189,7 @@ export default function DashboardPage() {
       <div className="orb w-96 h-96 -bottom-20 -right-20 opacity-10"
         style={{ background: 'radial-gradient(circle, #0891b2, transparent)' }} />
 
-      <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 relative z-10">
+      <div ref={contentRef} className="max-w-7xl mx-auto px-4 md:px-8 py-8 relative z-10">
 
         {/* ── HEADER ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
@@ -183,10 +216,20 @@ export default function DashboardPage() {
             </button>
             <button
               onClick={exportData}
-              className="btn-gradient relative flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-sm font-bold"
+              className="glass flex items-center gap-2 px-4 py-2.5 rounded-xl text-white/55 hover:text-white text-sm font-medium transition-all hover:bg-white/10"
             >
-              <Download className="w-4 h-4 relative z-10" />
-              <span className="relative z-10">Exportar</span>
+              <Download className="w-4 h-4" />
+              JSON
+            </button>
+            <button
+              onClick={downloadPdf}
+              disabled={downloadingPdf}
+              className="btn-gradient relative flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-sm font-bold disabled:opacity-50"
+            >
+              {downloadingPdf
+                ? <><RefreshCw className="w-4 h-4 animate-spin relative z-10" /><span className="relative z-10">Generando...</span></>
+                : <><Download className="w-4 h-4 relative z-10" /><span className="relative z-10">PDF</span></>
+              }
             </button>
           </div>
         </div>

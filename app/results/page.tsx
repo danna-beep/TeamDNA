@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { Loader2, Heart, Sparkles, Users } from 'lucide-react';
+import { Loader2, Heart, Sparkles, Users, Download } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { SESSION_ID, DANNA_ANSWERS, QUESTIONS } from '@/lib/questions';
 import { calculateMatchWithDanna, calculateMatch } from '@/lib/matching';
@@ -73,7 +73,41 @@ export default function ResultsPage() {
   const [topPeers, setTopPeers] = useState<PeerMatch[]>([]);
   const [myName, setMyName] = useState('');
   const [notFound, setNotFound] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  const downloadPdf = async () => {
+    if (!contentRef.current || downloading) return;
+    setDownloading(true);
+    try {
+      const html2canvas = (await import('html2canvas')).default;
+      const { jsPDF }   = await import('jspdf');
+
+      const canvas = await html2canvas(contentRef.current, {
+        backgroundColor: '#0b0818',
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        onclone: (_doc, el) => {
+          // solid backgrounds for glass elements (backdrop-filter no aplica en canvas)
+          el.querySelectorAll<HTMLElement>('.glass, .glass-strong').forEach((e) => {
+            e.style.background    = 'rgba(20, 14, 50, 0.97)';
+            e.style.backdropFilter = 'none';
+          });
+        },
+      });
+
+      const W   = canvas.width  / 2;
+      const H   = canvas.height / 2;
+      const pdf = new jsPDF({ orientation: 'portrait', unit: 'px', format: [W, H] });
+      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, W, H);
+      pdf.save(`team-dna-${myName.toLowerCase().replace(/\s+/g, '-') || 'resultados'}.pdf`);
+    } catch (e) {
+      console.error(e);
+    }
+    setDownloading(false);
+  };
 
   useEffect(() => {
     const pid = localStorage.getItem('teamdna_pid');
@@ -168,7 +202,7 @@ export default function ResultsPage() {
       <div className="orb w-60 h-60 -bottom-20 -left-20 opacity-10"
         style={{ background: 'radial-gradient(circle, #2563eb, transparent)' }} />
 
-      <div className="max-w-sm mx-auto px-4 pt-8 space-y-4 relative z-10">
+      <div ref={contentRef} className="max-w-sm mx-auto px-4 pt-8 space-y-4 relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -280,13 +314,34 @@ export default function ResultsPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="text-center pt-2"
+          className="text-center pt-2 pb-6"
         >
           <p className="text-white/20 text-xs font-mono">
             Resultados completos del equipo en la pantalla del presentador
           </p>
         </motion.div>
       </div>
+
+      {/* Botón descarga — fuera del área capturada */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.7 }}
+        className="max-w-sm mx-auto px-4 pb-10 relative z-10"
+      >
+        <button
+          onClick={downloadPdf}
+          disabled={downloading}
+          className="btn-gradient relative w-full flex items-center justify-center gap-2.5
+            py-3.5 rounded-xl font-bold text-white text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {downloading ? (
+            <><Loader2 className="w-4 h-4 animate-spin relative z-10" /><span className="relative z-10">Generando PDF...</span></>
+          ) : (
+            <><Download className="w-4 h-4 relative z-10" /><span className="relative z-10">Descargar mis resultados</span></>
+          )}
+        </button>
+      </motion.div>
     </main>
   );
 }
