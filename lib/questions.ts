@@ -5,47 +5,53 @@ export const QUESTIONS: Question[] = [
     id: 0,
     text: '¿En qué tipo de problemas disfrutas aportar más?',
     emoji: '🎯',
-    options: ['Usuario', 'Procesos', 'Datos', 'Diseño', 'Ejecución'],
+    options: [
+      'Entender al usuario / cliente',
+      'Optimizar procesos',
+      'Analizar información y tomar decisiones',
+      'Diseñar soluciones / experiencias',
+      'Ejecutar y hacer que las cosas pasen',
+    ],
   },
   {
     id: 1,
-    text: '¿Cómo tomas decisiones?',
+    text: 'Cuando tomas decisiones importantes, ¿qué pesa más?',
     emoji: '🧠',
-    options: ['Datos', 'Experiencia', 'Intuición', 'Equipo'],
+    options: ['Datos y evidencia', 'Experiencia previa', 'Intuición', 'Consenso del equipo'],
   },
   {
     id: 2,
-    text: '¿Qué te motiva?',
+    text: '¿Qué te motiva más en tu trabajo?',
     emoji: '⚡',
-    options: ['Impacto', 'Aprender', 'Estabilidad', 'Innovar'],
+    options: ['Impacto real', 'Aprender constantemente', 'Estabilidad', 'Innovar / crear cosas nuevas'],
   },
   {
     id: 3,
-    text: '¿Cómo trabajas mejor?',
+    text: '¿Cómo prefieres trabajar?',
     emoji: '💼',
-    options: ['Estructurado', 'Flexible', 'Autónomo', 'Colaborativo'],
+    options: ['Muy estructurado', 'Flexible', 'Autónomo', 'Colaborativo'],
   },
   {
     id: 4,
-    text: '¿Qué haces en tu tiempo libre?',
+    text: 'En tu tiempo libre, ¿qué disfrutas más?',
     emoji: '🎮',
-    options: ['Deporte', 'Leer', 'Series', 'Social', 'Gaming'],
+    options: ['Deporte', 'Leer / aprender', 'Series / películas', 'Socializar', 'Gaming'],
   },
   {
     id: 5,
-    text: '¿Qué tipo de contenido consumes?',
+    text: '¿Qué tipo de contenido te gusta más?',
     emoji: '📺',
-    options: ['Sci-fi', 'Documentales', 'Comedia', 'Negocios'],
+    options: ['Sci-fi', 'Documentales', 'Comedia', 'Negocios / emprendimiento'],
   },
 ];
 
 // Danna's predefined answers
 export const DANNA_ANSWERS: Record<string, string> = {
-  '0': 'Datos',
-  '1': 'Datos',
-  '2': 'Impacto',
+  '0': 'Analizar información y tomar decisiones',
+  '1': 'Datos y evidencia',
+  '2': 'Impacto real',
   '3': 'Flexible',
-  '4': 'Leer',
+  '4': 'Leer / aprender',
   '5': 'Documentales',
 };
 

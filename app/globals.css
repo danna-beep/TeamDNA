@@ -15,50 +15,56 @@ body {
 }
 
 body {
-  background: linear-gradient(135deg, #0d0a1e 0%, #1a0738 40%, #071228 100%);
+  background-color: #0b0818;
+  background-image:
+    linear-gradient(rgba(109, 40, 217, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37, 99, 235, 0.035) 1px, transparent 1px),
+    linear-gradient(135deg, #0d0a24 0%, #060312 45%, #070e1e 100%);
+  background-size: 44px 44px, 44px 44px, cover;
+  background-attachment: fixed;
   min-height: 100vh;
   color: white;
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 3px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(124, 58, 237, 0.5);
+  background: rgba(109, 40, 217, 0.4);
   border-radius: 2px;
 }
 
 /* Glassmorphism */
 .glass {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
+  background: rgba(14, 9, 38, 0.5);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
 }
 
 .glass-strong {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 20px;
+  background: rgba(18, 12, 50, 0.6);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 14px;
 }
 
 /* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, #a78bfa, #67e8f9);
+  background: linear-gradient(135deg, #c4b5fd 0%, #818cf8 50%, #93c5fd 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .gradient-text-warm {
-  background: linear-gradient(135deg, #f9a8d4, #a78bfa);
+  background: linear-gradient(135deg, #f0abfc, #c084fc, #a78bfa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -66,7 +72,8 @@ body {
 
 /* Gradient button */
 .btn-gradient {
-  background: linear-gradient(135deg, #7c3aed, #0891b2);
+  background: linear-gradient(135deg, #6d28d9, #2563eb);
+  box-shadow: 0 4px 24px rgba(109, 40, 217, 0.25);
   transition: all 0.2s ease;
   position: relative;
   overflow: hidden;
@@ -76,7 +83,7 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #6d28d9, #0e7490);
+  background: linear-gradient(135deg, #5b21b6, #1d4ed8);
   opacity: 0;
   transition: opacity 0.2s;
 }
@@ -87,7 +94,7 @@ body {
 
 .btn-gradient:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 30px rgba(124, 58, 237, 0.4);
+  box-shadow: 0 8px 32px rgba(109, 40, 217, 0.40);
 }
 
 .btn-gradient:active {
@@ -98,16 +105,39 @@ body {
 .orb {
   position: fixed;
   border-radius: 50%;
-  filter: blur(80px);
+  filter: blur(100px);
   pointer-events: none;
   z-index: 0;
 }
 
 /* Progress bar */
 .progress-bar {
-  background: linear-gradient(90deg, #7c3aed, #06b6d4);
+  background: linear-gradient(90deg, #6d28d9, #3b82f6);
   border-radius: 4px;
   transition: width 1s linear;
+}
+
+/* Input field */
+.input-field {
+  width: 100%;
+  background: rgba(14, 9, 38, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: white;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.input-field::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.input-field:focus {
+  border-color: rgba(109, 40, 217, 0.6);
+  background: rgba(109, 40, 217, 0.08);
+  box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.12);
 }
 
 /* Match score circle */
@@ -147,11 +177,11 @@ body {
 @keyframes pulse-ring {
   0% {
     transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.5);
+    box-shadow: 0 0 0 0 rgba(109, 40, 217, 0.5);
   }
   70% {
     transform: scale(1);
-    box-shadow: 0 0 0 12px rgba(124, 58, 237, 0);
+    box-shadow: 0 0 0 12px rgba(109, 40, 217, 0);
   }
   100% {
     transform: scale(0.95);

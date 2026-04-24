@@ -22,7 +22,7 @@ function MatchCircle({ pct }: { pct: number }) {
   return (
     <div className="relative w-36 h-36 mx-auto">
       <svg viewBox="0 0 120 120" className="w-full h-full -rotate-90">
-        <circle cx="60" cy="60" r={radius} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="8" />
+        <circle cx="60" cy="60" r={radius} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="8" />
         <motion.circle
           cx="60" cy="60" r={radius}
           fill="none"
@@ -36,21 +36,21 @@ function MatchCircle({ pct }: { pct: number }) {
         />
         <defs>
           <linearGradient id="matchGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#7c3aed" />
-            <stop offset="100%" stopColor="#06b6d4" />
+            <stop offset="0%" stopColor="#6d28d9" />
+            <stop offset="100%" stopColor="#3b82f6" />
           </linearGradient>
         </defs>
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center rotate-0">
         <motion.span
-          className="text-4xl font-black gradient-text"
+          className="text-4xl font-black gradient-text font-mono"
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.5, duration: 0.4 }}
         >
           {pct}%
         </motion.span>
-        <span className="text-white/40 text-xs">match</span>
+        <span className="text-white/30 text-xs font-mono">match</span>
       </div>
     </div>
   );
@@ -139,8 +139,8 @@ export default function ResultsPage() {
   if (loading) {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center gap-3">
-        <Loader2 className="w-8 h-8 text-violet-400 animate-spin" />
-        <p className="text-white/50 text-sm">Calculando compatibilidad...</p>
+        <Loader2 className="w-7 h-7 text-violet-400 animate-spin" />
+        <p className="text-white/35 text-xs font-mono tracking-wide">Calculando compatibilidad...</p>
       </main>
     );
   }
@@ -149,9 +149,9 @@ export default function ResultsPage() {
     return (
       <main className="min-h-screen flex items-center justify-center p-6">
         <div className="glass-strong p-8 max-w-sm w-full text-center">
-          <p className="text-white/60 mb-4">No encontramos tus respuestas.</p>
+          <p className="text-white/50 mb-4 text-sm">No encontramos tus respuestas.</p>
           <button onClick={() => router.push('/join')}
-            className="btn-gradient relative px-6 py-3 rounded-xl text-white font-bold">
+            className="btn-gradient relative px-6 py-2.5 rounded-xl text-white font-bold text-sm">
             <span className="relative z-10">Volver al inicio</span>
           </button>
         </div>
@@ -163,10 +163,10 @@ export default function ResultsPage() {
 
   return (
     <main className="min-h-screen relative overflow-hidden pb-10">
-      <div className="orb w-80 h-80 -top-20 -right-20 opacity-20"
+      <div className="orb w-80 h-80 -top-20 -right-20 opacity-15"
         style={{ background: 'radial-gradient(circle, #7c3aed, transparent)' }} />
-      <div className="orb w-60 h-60 -bottom-20 -left-20 opacity-15"
-        style={{ background: 'radial-gradient(circle, #0891b2, transparent)' }} />
+      <div className="orb w-60 h-60 -bottom-20 -left-20 opacity-10"
+        style={{ background: 'radial-gradient(circle, #2563eb, transparent)' }} />
 
       <div className="max-w-sm mx-auto px-4 pt-8 space-y-4 relative z-10">
         {/* Header */}
@@ -175,10 +175,7 @@ export default function ResultsPage() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-2"
         >
-          <div className="inline-flex items-center gap-2 glass px-3 py-1.5 rounded-full mb-4">
-            <span className="text-base">🧬</span>
-            <span className="text-white/70 text-xs font-medium">Team DNA v1</span>
-          </div>
+          <p className="font-mono text-xs tracking-[0.2em] text-white/25 uppercase mb-4">Team DNA v1</p>
           <h1 className="text-2xl font-black text-white">
             Tu compatibilidad, <span className="gradient-text">{myName}</span>
           </h1>
@@ -190,15 +187,16 @@ export default function ResultsPage() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.1 }}
           className="glass-strong p-6 text-center"
+          style={{ boxShadow: '0 0 60px rgba(109,40,217,0.15)' }}
         >
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Heart className="w-4 h-4 text-violet-400" />
-            <p className="text-white/60 text-sm font-medium uppercase tracking-wider">
+            <Heart className="w-3.5 h-3.5 text-violet-400/70" />
+            <p className="font-mono text-xs tracking-widest text-white/35 uppercase">
               Compatibilidad con Danna
             </p>
           </div>
           <MatchCircle pct={matchWithDanna} />
-          <p className="text-white/60 text-sm mt-4 leading-relaxed">{insight}</p>
+          <p className="text-white/50 text-sm mt-4 leading-relaxed">{insight}</p>
         </motion.div>
 
         {/* My answers summary */}
@@ -209,8 +207,8 @@ export default function ResultsPage() {
           className="glass p-5"
         >
           <div className="flex items-center gap-2 mb-3">
-            <Sparkles className="w-4 h-4 text-violet-400" />
-            <p className="text-white/70 text-sm font-semibold uppercase tracking-wider">Tu perfil</p>
+            <Sparkles className="w-3.5 h-3.5 text-violet-400/70" />
+            <p className="font-mono text-xs tracking-widest text-white/35 uppercase">Tu perfil</p>
           </div>
           <div className="space-y-2">
             {QUESTIONS.map((q) => {
@@ -219,18 +217,18 @@ export default function ResultsPage() {
               const match = myAns === dannaAns;
               return (
                 <div key={q.id} className="flex items-center justify-between gap-2">
-                  <span className="text-white/40 text-xs flex items-center gap-1.5">
-                    <span>{q.emoji}</span>
+                  <span className="text-white/35 text-xs flex items-center gap-1.5 min-w-0">
+                    <span className="flex-shrink-0">{q.emoji}</span>
                     <span className="truncate">{q.text.replace('¿', '').replace('?', '').trim()}</span>
                   </span>
                   <div className="flex items-center gap-1.5 flex-shrink-0">
-                    <span className={`text-xs font-medium px-2 py-0.5 rounded-full
+                    <span className={`font-mono text-xs px-2 py-0.5 rounded-md
                       ${match
-                        ? 'bg-emerald-500/20 text-emerald-400'
-                        : 'bg-white/10 text-white/70'}`}>
+                        ? 'bg-emerald-500/15 text-emerald-400/80 border border-emerald-500/20'
+                        : 'bg-white/5 text-white/55 border border-white/8'}`}>
                       {myAns || '—'}
                     </span>
-                    {match && <span className="text-emerald-400 text-xs">✓</span>}
+                    {match && <span className="text-emerald-400/70 text-xs">✓</span>}
                   </div>
                 </div>
               );
@@ -247,27 +245,27 @@ export default function ResultsPage() {
             className="glass p-5"
           >
             <div className="flex items-center gap-2 mb-3">
-              <Users className="w-4 h-4 text-cyan-400" />
-              <p className="text-white/70 text-sm font-semibold uppercase tracking-wider">
+              <Users className="w-3.5 h-3.5 text-violet-400/70" />
+              <p className="font-mono text-xs tracking-widest text-white/35 uppercase">
                 Más afines a ti
               </p>
             </div>
             <div className="space-y-2">
               {topPeers.map((peer, i) => (
                 <div key={i} className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-600 to-cyan-600
+                  <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-700 to-blue-600
                     flex items-center justify-center text-white font-bold text-xs flex-shrink-0">
                     {peer.name.charAt(0).toUpperCase()}
                   </div>
-                  <span className="text-white font-medium text-sm flex-1 truncate">{peer.name}</span>
+                  <span className="text-white/80 font-medium text-sm flex-1 truncate">{peer.name}</span>
                   <div className="flex items-center gap-2">
-                    <div className="w-20 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                    <div className="w-16 h-1 bg-white/8 rounded-full overflow-hidden">
                       <div
                         className="h-full progress-bar"
                         style={{ width: `${peer.match}%` }}
                       />
                     </div>
-                    <span className="text-white/60 text-xs font-mono w-8 text-right">
+                    <span className="text-white/40 text-xs font-mono w-8 text-right">
                       {peer.match}%
                     </span>
                   </div>
@@ -277,14 +275,14 @@ export default function ResultsPage() {
           </motion.div>
         )}
 
-        {/* Footer CTA */}
+        {/* Footer */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
           className="text-center pt-2"
         >
-          <p className="text-white/30 text-xs">
+          <p className="text-white/20 text-xs font-mono">
             Resultados completos del equipo en la pantalla del presentador
           </p>
         </motion.div>

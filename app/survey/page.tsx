@@ -137,7 +137,7 @@ export default function SurveyPage() {
   if (loading) {
     return (
       <main className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-violet-400 animate-spin" />
+        <Loader2 className="w-7 h-7 text-violet-400 animate-spin" />
       </main>
     );
   }
@@ -146,32 +146,32 @@ export default function SurveyPage() {
   if (session?.status === 'waiting') {
     return (
       <main className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
-        <div className="orb w-80 h-80 top-0 right-0 opacity-20"
+        <div className="orb w-80 h-80 top-0 right-0 opacity-15"
           style={{ background: 'radial-gradient(circle, #7c3aed, transparent)' }} />
-        <div className="orb w-60 h-60 bottom-0 left-0 opacity-15"
-          style={{ background: 'radial-gradient(circle, #0891b2, transparent)' }} />
+        <div className="orb w-60 h-60 bottom-0 left-0 opacity-10"
+          style={{ background: 'radial-gradient(circle, #2563eb, transparent)' }} />
 
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           className="glass-strong p-10 max-w-sm w-full text-center relative z-10"
         >
-          <div className="text-5xl mb-6 animate-float">🧬</div>
-          <h2 className="text-2xl font-black text-white mb-2">
+          <p className="font-mono text-xs tracking-widest text-violet-400/50 uppercase mb-5">Team DNA</p>
+          <h2 className="text-xl font-bold text-white mb-2">
             Hola, {participantName}
           </h2>
-          <p className="text-white/60 mb-6">
+          <p className="text-white/45 text-sm mb-6 leading-relaxed">
             Estás registrado. En cuanto el experimento inicie, las preguntas aparecerán aquí.
           </p>
-          <div className="flex items-center justify-center gap-2 text-amber-300">
-            <Clock className="w-4 h-4" />
-            <span className="text-sm font-medium">Esperando al presentador...</span>
+          <div className="flex items-center justify-center gap-2 text-amber-400/70">
+            <Clock className="w-3.5 h-3.5" />
+            <span className="text-xs font-mono tracking-wide">Esperando al presentador...</span>
           </div>
-          <div className="flex justify-center gap-1 mt-4">
+          <div className="flex justify-center gap-1 mt-5">
             {[0, 1, 2].map((i) => (
               <motion.div
                 key={i}
-                className="w-2 h-2 bg-violet-400 rounded-full"
+                className="w-1.5 h-1.5 bg-violet-500/60 rounded-full"
                 animate={{ opacity: [0.3, 1, 0.3] }}
                 transition={{ duration: 1.2, delay: i * 0.2, repeat: Infinity }}
               />
@@ -191,10 +191,10 @@ export default function SurveyPage() {
           animate={{ opacity: 1, scale: 1 }}
           className="glass-strong p-10 max-w-sm w-full text-center"
         >
-          <CheckCircle2 className="w-16 h-16 text-emerald-400 mx-auto mb-4" />
-          <h2 className="text-2xl font-black text-white mb-2">¡Listo!</h2>
-          <p className="text-white/60">Calculando tu compatibilidad...</p>
-          <Loader2 className="w-6 h-6 text-violet-400 animate-spin mx-auto mt-4" />
+          <CheckCircle2 className="w-14 h-14 text-emerald-400/80 mx-auto mb-4" />
+          <h2 className="text-xl font-bold text-white mb-2">Enviado</h2>
+          <p className="text-white/45 text-sm">Calculando tu compatibilidad...</p>
+          <Loader2 className="w-5 h-5 text-violet-400 animate-spin mx-auto mt-5" />
         </motion.div>
       </main>
     );
@@ -202,33 +202,37 @@ export default function SurveyPage() {
 
   return (
     <main className="min-h-screen relative overflow-hidden">
-      <div className="orb w-64 h-64 -top-20 -right-20 opacity-20"
+      <div className="orb w-64 h-64 -top-20 -right-20 opacity-15"
         style={{ background: 'radial-gradient(circle, #7c3aed, transparent)' }} />
-      <div className="orb w-48 h-48 -bottom-10 -left-10 opacity-15"
-        style={{ background: 'radial-gradient(circle, #0891b2, transparent)' }} />
+      <div className="orb w-48 h-48 -bottom-10 -left-10 opacity-10"
+        style={{ background: 'radial-gradient(circle, #2563eb, transparent)' }} />
 
       {/* Sticky header */}
-      <div className="sticky top-0 z-50 glass border-b border-white/10 px-4 pt-4 pb-3">
+      <div className="sticky top-0 z-50 px-4 pt-3 pb-3"
+        style={{
+          background: 'rgba(8, 5, 24, 0.80)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          borderBottom: '1px solid rgba(255,255,255,0.06)',
+        }}>
         <div className="max-w-lg mx-auto">
           <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-white/60">
-                {answeredCount}/{QUESTIONS.length} respondidas
-              </span>
-            </div>
+            <span className="font-mono text-xs text-white/35 tracking-wide">
+              {answeredCount}/{QUESTIONS.length} respondidas
+            </span>
             {timeLeft !== null && (
-              <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full font-mono font-bold
+              <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-mono text-sm font-bold
                 ${timerWarning
-                  ? 'bg-red-500/20 text-red-400 border border-red-500/30'
-                  : 'bg-white/10 text-white'}`}>
-                <Clock className={`w-4 h-4 ${timerWarning ? 'animate-pulse' : ''}`} />
-                <span className="text-lg">{formatTime(timeLeft)}</span>
+                  ? 'bg-red-500/15 text-red-400 border border-red-500/25'
+                  : 'text-white/60 border border-white/8'}`}>
+                <Clock className={`w-3.5 h-3.5 ${timerWarning ? 'animate-pulse' : ''}`} />
+                <span>{formatTime(timeLeft)}</span>
               </div>
             )}
           </div>
 
           {/* Progress bar */}
-          <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+          <div className="h-1 bg-white/6 rounded-full overflow-hidden">
             <div
               className="h-full progress-bar"
               style={{ width: `${progress}%` }}
@@ -238,72 +242,73 @@ export default function SurveyPage() {
       </div>
 
       {/* Questions */}
-      <div className="max-w-lg mx-auto px-4 py-6 pb-32 space-y-4 relative z-10">
-        {QUESTIONS.map((q, index) => (
-          <motion.div
-            key={q.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.08 }}
-            className={`glass p-5 transition-all duration-200
-              ${answers[String(q.id)] ? 'border-violet-500/30' : ''}`}
-          >
-            <div className="flex items-start gap-3 mb-4">
-              <span className="text-2xl flex-shrink-0">{q.emoji}</span>
-              <div>
-                <p className="text-white/40 text-xs font-semibold uppercase tracking-wider mb-1">
-                  Pregunta {index + 1}
+      <div className="max-w-lg mx-auto px-4 py-5 pb-32 space-y-3.5 relative z-10">
+        <AnimatePresence>
+          {QUESTIONS.map((q, index) => (
+            <motion.div
+              key={q.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.08 }}
+              className={`glass p-5 transition-all duration-200
+                ${answers[String(q.id)] ? 'border-violet-500/25' : ''}`}
+            >
+              <div className="mb-4">
+                <p className="font-mono text-xs text-white/30 tracking-widest uppercase mb-2">
+                  Q{String(index + 1).padStart(2, '0')}
                 </p>
-                <p className="text-white font-semibold text-base leading-snug">{q.text}</p>
+                <p className="text-white font-medium text-base leading-snug">{q.text}</p>
               </div>
-            </div>
 
-            <div className="grid grid-cols-2 gap-2">
-              {q.options.map((opt) => {
-                const selected = answers[String(q.id)] === opt;
-                return (
-                  <motion.button
-                    key={opt}
-                    whileTap={{ scale: 0.96 }}
-                    onClick={() => handleAnswer(q.id, opt)}
-                    className={`px-3 py-2.5 rounded-xl text-sm font-medium text-left transition-all duration-150
-                      ${selected
-                        ? 'bg-gradient-to-r from-violet-600 to-cyan-600 text-white border border-transparent'
-                        : 'bg-white/5 text-white/70 border border-white/10 hover:bg-white/10 hover:text-white'
-                      }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      {selected && <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0" />}
-                      {opt}
-                    </div>
-                  </motion.button>
-                );
-              })}
-            </div>
-          </motion.div>
-        ))}
+              <div className="flex flex-col gap-1.5">
+                {q.options.map((opt) => {
+                  const selected = answers[String(q.id)] === opt;
+                  return (
+                    <motion.button
+                      key={opt}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => handleAnswer(q.id, opt)}
+                      className={`px-3.5 py-2.5 rounded-xl text-sm font-medium text-left transition-all duration-150
+                        ${selected
+                          ? 'bg-violet-600/20 border border-violet-500/50 text-white'
+                          : 'bg-white/3 border border-white/7 text-white/60 hover:bg-white/6 hover:border-white/15 hover:text-white/90'
+                        }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        {selected && <CheckCircle2 className="w-3 h-3 flex-shrink-0 text-violet-400" />}
+                        <span>{opt}</span>
+                      </div>
+                    </motion.button>
+                  );
+                })}
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
 
       {/* Fixed submit button */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-gradient-to-t from-black/60 to-transparent">
+      <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-gradient-to-t from-black/70 to-transparent">
         <div className="max-w-lg mx-auto">
           <motion.button
             whileTap={{ scale: 0.97 }}
             onClick={handleSubmit}
             disabled={submitting || !allAnswered}
-            className={`btn-gradient relative w-full py-4 rounded-2xl font-bold text-white text-base
+            className={`btn-gradient relative w-full py-3.5 rounded-xl font-bold text-white text-base
               transition-all duration-200
               ${!allAnswered
-                ? 'opacity-40 cursor-not-allowed'
+                ? 'opacity-35 cursor-not-allowed'
                 : 'opacity-100'}`}
           >
             <span className="relative z-10 flex items-center justify-center gap-2">
               {submitting ? (
-                <><Loader2 className="w-5 h-5 animate-spin" /> Enviando...</>
+                <><Loader2 className="w-4 h-4 animate-spin" /> Enviando...</>
               ) : allAnswered ? (
-                <><CheckCircle2 className="w-5 h-5" /> Enviar respuestas</>
+                <><CheckCircle2 className="w-4 h-4" /> Enviar respuestas</>
               ) : (
-                `Faltan ${QUESTIONS.length - answeredCount} respuestas`
+                <span className="font-mono tracking-wide">
+                  {QUESTIONS.length - answeredCount} respuestas restantes
+                </span>
               )}
             </span>
           </motion.button>

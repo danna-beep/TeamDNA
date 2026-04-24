@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const links = [
-  { href: '/teamdna', label: 'TeamDNA', emoji: '👤' },
-  { href: '/', label: 'Presenter', emoji: '🎯' },
-  { href: '/dashboard', label: 'Dashboard', emoji: '📊' },
+  { href: '/teamdna', label: 'Perfil' },
+  { href: '/', label: 'Presenter' },
+  { href: '/dashboard', label: 'Dashboard' },
 ];
 
 export default function Nav() {
@@ -16,31 +16,54 @@ export default function Nav() {
     <nav
       className="fixed top-0 left-0 right-0 z-50"
       style={{
-        background: 'rgba(13, 10, 30, 0.85)',
+        background: 'rgba(8, 5, 24, 0.85)',
         backdropFilter: 'blur(24px)',
         WebkitBackdropFilter: 'blur(24px)',
-        borderBottom: '1px solid rgba(255,255,255,0.07)',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        height: '56px',
       }}
     >
-      <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="text-xl">🧬</span>
-          <span className="font-black text-white tracking-tight">Team DNA</span>
+      {/* Bottom accent line */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-px"
+        style={{ background: 'linear-gradient(90deg, transparent, rgba(109,40,217,0.5), rgba(37,99,235,0.4), transparent)' }}
+      />
+
+      <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
+        {/* Logo */}
+        <div className="flex items-center gap-2.5">
+          <span className="text-lg">🧬</span>
+          <span
+            className="font-mono font-bold text-white tracking-[0.15em] text-sm uppercase"
+            style={{ letterSpacing: '0.15em' }}
+          >
+            TEAM DNA
+          </span>
         </div>
+
+        {/* Links */}
         <div className="flex items-center gap-1">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all flex items-center gap-2
-                ${pathname === link.href
-                  ? 'bg-violet-500/25 text-violet-200 border border-violet-500/35'
-                  : 'text-white/55 hover:text-white hover:bg-white/8'}`}
-            >
-              <span>{link.emoji}</span>
-              <span>{link.label}</span>
-            </Link>
-          ))}
+          {links.map((link) => {
+            const active = pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`relative px-4 py-1.5 text-sm font-medium transition-all duration-200
+                  ${active
+                    ? 'text-white'
+                    : 'text-white/40 hover:text-white/80'}`}
+              >
+                {link.label}
+                {active && (
+                  <span
+                    className="absolute bottom-0 left-2 right-2 h-0.5 rounded-full"
+                    style={{ background: 'linear-gradient(90deg, #7c3aed, #6366f1)' }}
+                  />
+                )}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </nav>

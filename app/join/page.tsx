@@ -74,12 +74,12 @@ export default function JoinPage() {
   if (session?.status === 'completed') {
     return (
       <main className="min-h-screen flex items-center justify-center p-6">
-        <div className="orb w-96 h-96 top-0 right-0 opacity-20"
+        <div className="orb w-96 h-96 top-0 right-0 opacity-15"
           style={{ background: 'radial-gradient(circle, #7c3aed, transparent)' }} />
         <div className="glass-strong p-10 max-w-md w-full text-center relative z-10">
-          <div className="text-5xl mb-4">🔒</div>
-          <h2 className="text-2xl font-bold text-white mb-2">Experimento cerrado</h2>
-          <p className="text-white/50">El tiempo de respuesta ha finalizado.</p>
+          <p className="font-mono text-xs tracking-widest text-white/25 uppercase mb-6">Session Closed</p>
+          <h2 className="text-xl font-bold text-white mb-2">Experimento cerrado</h2>
+          <p className="text-white/40 text-sm">El tiempo de respuesta ha finalizado.</p>
         </div>
       </main>
     );
@@ -88,10 +88,10 @@ export default function JoinPage() {
   return (
     <main className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
       {/* Background orbs */}
-      <div className="orb w-80 h-80 -top-20 -right-20 opacity-25"
+      <div className="orb w-80 h-80 -top-20 -right-20 opacity-20"
         style={{ background: 'radial-gradient(circle, #7c3aed, transparent)' }} />
-      <div className="orb w-64 h-64 -bottom-20 -left-20 opacity-20"
-        style={{ background: 'radial-gradient(circle, #0891b2, transparent)' }} />
+      <div className="orb w-64 h-64 -bottom-20 -left-20 opacity-15"
+        style={{ background: 'radial-gradient(circle, #2563eb, transparent)' }} />
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -99,17 +99,20 @@ export default function JoinPage() {
         transition={{ duration: 0.5 }}
         className="w-full max-w-sm relative z-10"
       >
-        {/* Logo */}
+        {/* Logo + heading */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 glass px-4 py-2 rounded-full mb-6">
-            <span className="text-xl">🧬</span>
-            <span className="text-white font-bold text-sm">Team DNA v1</span>
-          </div>
+          <p className="font-mono text-xs tracking-[0.25em] text-white/30 uppercase mb-5">
+            TEAM DNA
+          </p>
           <h1 className="text-3xl font-black text-white mb-2">
             Únete al
             <span className="gradient-text"> experimento</span>
           </h1>
-          <p className="text-white/50 text-sm leading-relaxed">
+          {/* Thin gradient line below heading */}
+          <div className="mx-auto mt-3 mb-4 h-px w-24"
+            style={{ background: 'linear-gradient(90deg, transparent, rgba(109,40,217,0.6), rgba(37,99,235,0.5), transparent)' }}
+          />
+          <p className="text-white/40 text-sm leading-relaxed">
             6 preguntas · 3 minutos · datos en tiempo real
           </p>
         </div>
@@ -117,7 +120,7 @@ export default function JoinPage() {
         {/* Form */}
         <form onSubmit={handleSubmit} className="glass-strong p-6 space-y-4">
           <div>
-            <label className="block text-white/70 text-xs font-semibold uppercase tracking-wider mb-2">
+            <label className="block font-mono text-xs tracking-widest text-white/40 uppercase mb-2">
               Nombre *
             </label>
             <input
@@ -127,31 +130,25 @@ export default function JoinPage() {
               placeholder="¿Cómo te llaman?"
               autoFocus
               required
-              className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3
-                text-white placeholder-white/30 text-base
-                focus:outline-none focus:border-violet-500 focus:bg-white/15
-                transition-all duration-200"
+              className="input-field"
             />
           </div>
 
           <div>
-            <label className="block text-white/70 text-xs font-semibold uppercase tracking-wider mb-2">
-              Correo <span className="text-white/30 normal-case font-normal">(opcional)</span>
+            <label className="block font-mono text-xs tracking-widest text-white/40 uppercase mb-2">
+              Correo <span className="text-white/25 normal-case font-normal tracking-normal">(opcional)</span>
             </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="tu@empresa.com"
-              className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3
-                text-white placeholder-white/30 text-base
-                focus:outline-none focus:border-violet-500 focus:bg-white/15
-                transition-all duration-200"
+              className="input-field"
             />
           </div>
 
           {error && (
-            <p className="text-red-400 text-sm text-center">{error}</p>
+            <p className="text-red-400/80 text-sm text-center font-mono">{error}</p>
           )}
 
           <motion.button
@@ -159,25 +156,25 @@ export default function JoinPage() {
             whileTap={{ scale: 0.97 }}
             disabled={loading || !name.trim()}
             className="btn-gradient relative w-full flex items-center justify-center gap-2
-              py-4 rounded-xl font-bold text-white text-base
+              py-3.5 rounded-xl font-bold text-white text-base
               disabled:opacity-40 disabled:cursor-not-allowed mt-2"
           >
             <span className="relative z-10 flex items-center gap-2">
               {loading ? (
                 <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <Loader2 className="w-4 h-4 animate-spin" />
                   Uniéndome...
                 </>
               ) : (
                 <>
                   Unirme al experimento
-                  <ArrowRight className="w-5 h-5" />
+                  <ArrowRight className="w-4 h-4" />
                 </>
               )}
             </span>
           </motion.button>
 
-          <p className="text-white/25 text-xs text-center pt-1">
+          <p className="text-white/20 text-xs text-center font-mono pt-1">
             Solo usaremos tu nombre para el análisis. Sin spam.
           </p>
         </form>
