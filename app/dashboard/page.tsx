@@ -115,23 +115,31 @@ export default function DashboardPage() {
       const html2canvas = (await import('html2canvas')).default;
       const { jsPDF }   = await import('jspdf');
 
-      const canvas = await html2canvas(contentRef.current, {
+      const el    = contentRef.current;
+      const scale = 1.5;
+
+      const canvas = await html2canvas(el, {
         backgroundColor: '#0b0818',
-        scale: 1.5,
+        scale,
         useCORS: true,
         logging: false,
-        onclone: (_doc, el) => {
-          el.querySelectorAll<HTMLElement>('.glass, .glass-strong').forEach((e) => {
+        width:        el.offsetWidth,
+        height:       el.scrollHeight,   // altura total, no solo viewport
+        scrollX:      0,
+        scrollY:      0,
+        onclone: (_doc, cloned) => {
+          cloned.querySelectorAll<HTMLElement>('.glass, .glass-strong').forEach((e) => {
             e.style.background     = 'rgba(20, 14, 50, 0.97)';
             e.style.backdropFilter = 'none';
           });
         },
       });
 
-      const W   = canvas.width  / 1.5;
-      const H   = canvas.height / 1.5;
-      const pdf = new jsPDF({ orientation: W > H ? 'landscape' : 'portrait', unit: 'px', format: [W, H] });
-      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, W, H);
+      // px → mm (96 DPI), dividir por scale para obtener tamaño real renderizado
+      const mmW = (canvas.width  / scale) * (25.4 / 96);
+      const mmH = (canvas.height / scale) * (25.4 / 96);
+      const pdf = new jsPDF({ orientation: mmW > mmH ? 'landscape' : 'portrait', unit: 'mm', format: [mmW, mmH] });
+      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, mmW, mmH);
       pdf.save(`team-dna-dashboard-${new Date().toISOString().split('T')[0]}.pdf`);
     } catch (e) {
       console.error(e);

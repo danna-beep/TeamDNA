@@ -84,24 +84,31 @@ export default function ResultsPage() {
       const html2canvas = (await import('html2canvas')).default;
       const { jsPDF }   = await import('jspdf');
 
-      const canvas = await html2canvas(contentRef.current, {
+      const el    = contentRef.current;
+      const scale = 2;
+
+      const canvas = await html2canvas(el, {
         backgroundColor: '#0b0818',
-        scale: 2,
+        scale,
         useCORS: true,
         logging: false,
-        onclone: (_doc, el) => {
-          // solid backgrounds for glass elements (backdrop-filter no aplica en canvas)
-          el.querySelectorAll<HTMLElement>('.glass, .glass-strong').forEach((e) => {
-            e.style.background    = 'rgba(20, 14, 50, 0.97)';
+        width:        el.offsetWidth,
+        height:       el.scrollHeight,   // altura total, no solo viewport
+        scrollX:      0,
+        scrollY:      0,
+        onclone: (_doc, cloned) => {
+          cloned.querySelectorAll<HTMLElement>('.glass, .glass-strong').forEach((e) => {
+            e.style.background     = 'rgba(20, 14, 50, 0.97)';
             e.style.backdropFilter = 'none';
           });
         },
       });
 
-      const W   = canvas.width  / 2;
-      const H   = canvas.height / 2;
-      const pdf = new jsPDF({ orientation: 'portrait', unit: 'px', format: [W, H] });
-      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, W, H);
+      // px → mm (96 DPI), dividir por scale para obtener tamaño real renderizado
+      const mmW = (canvas.width  / scale) * (25.4 / 96);
+      const mmH = (canvas.height / scale) * (25.4 / 96);
+      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [mmW, mmH] });
+      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, mmW, mmH);
       pdf.save(`team-dna-${myName.toLowerCase().replace(/\s+/g, '-') || 'resultados'}.pdf`);
     } catch (e) {
       console.error(e);
